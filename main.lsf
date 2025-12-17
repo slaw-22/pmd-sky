@@ -80,8 +80,10 @@ Static main
 	Object asm/main_0203C774.o
 	Object src/main_0204AFF8.o
 	Object asm/main_0204B018.o
-	Object src/script_variable.o
 	Object src/script_vars_locals.o
+	Object src/event_flag_size.o
+	Object src/compare_error_msg.o
+	Object src/script_variable.o
 	Object asm/main_rodata_0209CECC_2.o
 	Object src/dungeon_parameters_3.o
 	Object asm/main_rodata_020A1894.o

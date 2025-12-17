@@ -1,3 +1,4 @@
+#include "script_vars_locals.h"
 #include "script_variable.h"
 
 extern u8* _0209CE9C[];
@@ -47,5 +48,3 @@ const struct script_var_def SCRIPT_VARS_LOCALS[] = {
         .name        = (char *)_0209CE94               /* .word _0209CE94 → "LOCAL3" */
     }
 };
-
-const u8 EVENT_FLAG_SIZE_DEBUG_MSG[] = "EventFlagSize %04x/%04x\n";

@@ -1,8 +1,11 @@
+#include "compare_error_msg.h"
 #include "debug.h"
+#include "event_flag_size.h"
 #include "enums.h"
 #include "main_0200224C.h"
 #include "main_0200330C.h"
 #include "main_0200ECFC.h"
+#include "main_0204AFF8.h"
 #include "scenario_flag.h"
 #include "script_variable.h"
 #include "script_variable_2.h"
@@ -20,26 +23,22 @@
 #define VAR_GROUND_ENTER_VALUE 0x137
 #endif
 
+// extern struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES;
+// extern struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES;
+// extern const u8 EVENT_FLAG_FILE_NAME[];
 // Global script variable definitions
 extern struct script_var_def SCRIPT_VARS[];
 // Local script variable definitions
 //extern struct script_var_def SCRIPT_VARS_LOCALS[];
 // Global script variable values
 extern u8 SCRIPT_VARS_VALUES[];
-extern u8 EVENT_FLAG_EXPANSION_ERROR;
-extern u8 EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR;
-extern const u8 EVENT_FLAG_GAME_MODE_DEBUG_MSG;
-extern const u8 EVENT_FLAG_BACKUP_DEBUG_MSG;
+// extern u8 EVENT_FLAG_EXPANSION_ERROR;
+extern u8 EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR[];
+// extern const u8 EVENT_FLAG_GAME_MODE_DEBUG_MSG;
+// extern const u8 EVENT_FLAG_BACKUP_DEBUG_MSG;
 
-const u8 EVENT_FLAG_FILE_NAME[] = "event_flag.c";
-const struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES = {
-    (u8*) EVENT_FLAG_FILE_NAME,
-    1001
-};
-const struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES = {
-    (u8*) EVENT_FLAG_FILE_NAME,
-    1044
-};
+const u8 EVENT_FLAG_GAME_MODE_DEBUG_MSG[] = "EventFlag ResumeGameMode %d\n";
+const u8 EVENT_FLAG_BACKUP_DEBUG_MSG[] = "EventFlag BackupGameMode %d\n";
 
 extern s32 GetPartyMembers(s32 param1);
 extern s32 GetMoneyStored();
@@ -509,7 +508,7 @@ s32 CalcScriptVariables(s32 param_1, s32 param_2, enum script_calc_operation ope
             return RandInt(param_2);
         default:
             struct prog_pos_info ppi = EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES;
-            Debug_FatalError(&ppi, &EVENT_FLAG_EXPANSION_ERROR, operation);
+            Debug_FatalError(&ppi, EVENT_FLAG_EXPANSION_ERROR, operation);
     }
 }
 
@@ -544,7 +543,7 @@ bool8 CompareScriptVariables(s32 param_1, s32 param_2, enum compare_operation op
             }
         default:
             struct prog_pos_info ppi = EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES;
-            Debug_FatalError(&ppi, &EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR, operation);
+            Debug_FatalError(&ppi, EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR, operation);
         }
 }
 
@@ -599,7 +598,7 @@ void EventFlagResume()
         return;
     }
     u32 idx = game_mode - 2;
-    Debug_Print0(&EVENT_FLAG_GAME_MODE_DEBUG_MSG, idx);
+    Debug_Print0(EVENT_FLAG_GAME_MODE_DEBUG_MSG, idx);
 
     SaveScriptVariableValue(0, VAR_GROUND_ENTER, LoadScriptVariableValueAtIndexInline(VAR_GROUND_ENTER_BACKUP, idx));
     SaveScriptVariableValue(0, VAR_GROUND_ENTER_LINK, LoadScriptVariableValueAtIndexInline(VAR_GROUND_ENTER_LINK_BACKUP, idx));
@@ -635,7 +634,7 @@ void EventFlagBackup()
         return;
     }
     idx = game_mode - 2;
-    Debug_Print0(&EVENT_FLAG_BACKUP_DEBUG_MSG, idx);
+    Debug_Print0(EVENT_FLAG_BACKUP_DEBUG_MSG, idx);
 
     SaveScriptVariableValueAtIndexInline(VAR_GROUND_ENTER_BACKUP, idx, LoadScriptVariableValue(0, VAR_GROUND_ENTER));
     SaveScriptVariableValueAtIndexInline(VAR_GROUND_ENTER_LINK_BACKUP, idx, LoadScriptVariableValue(0, VAR_GROUND_ENTER_LINK));

@@ -1,0 +1,1 @@
+const u8 EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR[] = "event flag rule error %d";
