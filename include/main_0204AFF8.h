@@ -11,8 +11,8 @@
 
 // extern const struct prog_pos_info ppis[];
 
-extern const struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES;
-extern const struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES;
+// extern const struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES;
+// extern const struct prog_pos_info EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES;
 
 // extern const struct prog_pos_infos ppis;
 

@@ -39,6 +39,7 @@ extern u8 EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR[];
 
 const u8 EVENT_FLAG_GAME_MODE_DEBUG_MSG[] = "EventFlag ResumeGameMode %d\n";
 const u8 EVENT_FLAG_BACKUP_DEBUG_MSG[] = "EventFlag BackupGameMode %d\n";
+const u8 FILE[] = "event_flag.c";
 
 extern s32 GetPartyMembers(s32 param1);
 extern s32 GetMoneyStored();
@@ -507,8 +508,8 @@ s32 CalcScriptVariables(s32 param_1, s32 param_2, enum script_calc_operation ope
         case CALC_RANDOM:
             return RandInt(param_2);
         default:
-            struct prog_pos_info ppi = EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES;
-            Debug_FatalError(&ppi, EVENT_FLAG_EXPANSION_ERROR, operation);
+            // struct prog_pos_info ppi = EVENT_FLAG_PROG_POS_INFO_CALC_SCRIPT_VARIABLES;
+            Debug_FatalError(DEBUG_LOC_PTR(FILE, 1001), EVENT_FLAG_EXPANSION_ERROR, operation);
     }
 }
 
@@ -542,8 +543,8 @@ bool8 CompareScriptVariables(s32 param_1, s32 param_2, enum compare_operation op
                 return 0;
             }
         default:
-            struct prog_pos_info ppi = EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES;
-            Debug_FatalError(&ppi, EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR, operation);
+            // struct prog_pos_info ppi = EVENT_FLAG_PROG_POS_INFO_COMPARE_SCRIPT_VARIABLES;
+            Debug_FatalError(DEBUG_LOC_PTR(FILE, 1044), EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR, operation);
         }
 }
 

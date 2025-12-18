@@ -3,10 +3,12 @@
 
 #include <stdarg.h>
 
+#define DEBUG_LOC_PTR(file, line)((&((struct prog_pos_info){file, line})))
+
 // Program position info (basically stack trace info) for debug logging.
 struct prog_pos_info {
-    u8* file; // file name
-    s32 line;   // line number
+    const u8* file; // file name
+    const s32 line;   // line number
 };
 
 // Flags listed in the debug menu
