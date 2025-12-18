@@ -3,6 +3,6 @@
 
 void sub_0204B028();
 extern const u8 EVENT_FLAG_SIZE_DEBUG_MSG[];
-extern const u8 EVENT_FLAG_EXPANSION_ERROR[];
+// extern const u8 EVENT_FLAG_EXPANSION_ERROR[];
 
 #endif //PMDSKY_EVENT_FLAG_SIZE

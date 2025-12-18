@@ -34,9 +34,10 @@ extern struct script_var_def SCRIPT_VARS[];
 extern u8 SCRIPT_VARS_VALUES[];
 // extern u8 EVENT_FLAG_EXPANSION_ERROR;
 extern u8 EVENT_FLAG_COMPARE_SCRIPT_VARIABLES_ERROR[];
-// extern const u8 EVENT_FLAG_GAME_MODE_DEBUG_MSG;
+// extern const u8  ;
 // extern const u8 EVENT_FLAG_BACKUP_DEBUG_MSG;
 
+const u8 EVENT_FLAG_EXPANSION_ERROR[] =  "event flag expansion error %d";
 const u8 EVENT_FLAG_GAME_MODE_DEBUG_MSG[] = "EventFlag ResumeGameMode %d\n";
 const u8 EVENT_FLAG_BACKUP_DEBUG_MSG[] = "EventFlag BackupGameMode %d\n";
 const u8 FILE[] = "event_flag.c";
