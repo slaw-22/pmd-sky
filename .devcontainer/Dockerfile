@@ -38,7 +38,8 @@ RUN apt-get update \
     p7zip-full \
     libpng-dev \
     libpugixml-dev \
-    winehq-stable
+    winehq-stable \
+    python3.10-venv
 
 RUN apt-get clean
 
@@ -51,3 +52,4 @@ ENV CC=gcc-10
 ENV CXX=g++-10
 
 COPY onCreate.sh /opt/devcontainer/
+COPY asmDiffer.sh /opt/devcontainer/

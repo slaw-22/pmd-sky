@@ -29,3 +29,5 @@ fi
 # Note that this doesn't work if done in the Dockerfile directly, it
 # needs to be done in the running devcontainer.
 xvfb-run wineboot
+
+/opt/devcontainer/asmDiffer.sh $WORKSPACE
