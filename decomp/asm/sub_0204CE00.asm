@@ -1,4 +1,4 @@
-	.include "../asm/macros/function.inc"
+	.include "../../asm/macros/function.inc"
 	.text
 
 .public GetGameMode

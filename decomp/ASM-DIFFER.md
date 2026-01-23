@@ -1,7 +1,7 @@
 # Compare a Single Function with asm-differ
 Run these commands from tools/asm-differ
 ## Set Up For ARM32
-Update diff_settings.py as follows:
+Update diff_settings.py as follows. Note that most default settings (baseimg, myimg etc) are ignored because of the command line options chosen below when running asm-differ:
 ```
 def apply(config, args):
     config["baseimg"] = "target.bin"
