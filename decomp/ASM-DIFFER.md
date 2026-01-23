@@ -29,5 +29,8 @@ cp ../../decomp/build/current.o ./object.o
 ## Run Asm-Differ
 ```
 source bin/activate
+# Find score
 python diff.py --file=object.o sub_0204CE00 -o --no-pager | grep -Eo 'CURRENT.+\)' | grep -Eo '[0-9]+'
+# JSON output, including current_score and max_score
+python diff.py --file=object.o sub_0204CE00 -o --no-pager --format json | grep -Eo '[a-z]+_score\": [0-9]+'
 ```
