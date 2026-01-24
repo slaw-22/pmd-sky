@@ -12,8 +12,7 @@ import sys
 import re
 from typing import List
 
-# Change this default if you want a different directory when calling without arg.
-OUTPUT_DIR = "tmp_arm_functions"
+
 
 START_RE = re.compile(r'^\s*arm_func_start\s+(\S+)\s*$')
 END_RE = re.compile(r'^\s*arm_func_end\s+(\S+)\s*$')
@@ -25,7 +24,7 @@ def sanitize_filename(name: str) -> str:
     """
     return re.sub(r'[^A-Za-z0-9._-]', '_', name)
 
-def split_arm_functions(input_path: str, output_dir: str = OUTPUT_DIR) -> List[str]:
+def split_functions(input_path: str, output_dir: str) -> List[str]:
     """
     Read input_path, extract blocks between:
       arm_func_start <FunctionName>
@@ -39,8 +38,6 @@ def split_arm_functions(input_path: str, output_dir: str = OUTPUT_DIR) -> List[s
     """
     if not os.path.isfile(input_path):
         raise FileNotFoundError(f"Input file not found: {input_path}")
-
-    os.makedirs(output_dir, exist_ok=True)
 
     filenames: List[str] = []
     current_name = None
@@ -103,7 +100,7 @@ def _cli_main():
 
     input_path = sys.argv[1]
     try:
-        filenames = split_arm_functions(input_path)
+        filenames = split_functions(input_path)
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
         sys.exit(1)

@@ -1,7 +1,7 @@
 import os
 import tempfile
 import shutil
-from split_funcs import split_arm_functions, sanitize_filename
+from split_funcs import split_functions, sanitize_filename
 
 def write_file(path, contents):
     with open(path, "w", encoding="utf-8") as f:
@@ -22,7 +22,8 @@ tail
 """
     write_file(src, content)
     out_dir = tmp_path / "out"
-    files = split_arm_functions(str(src), output_dir=str(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    files = split_functions(str(src), output_dir=str(out_dir))
     assert len(files) == 1
     out_path = files[0]
     assert os.path.basename(out_path) == sanitize_filename("foo") + ".s"
@@ -42,7 +43,8 @@ arm_func_end b
 """
     write_file(src, content)
     out_dir = tmp_path / "out"
-    files = split_arm_functions(str(src), output_dir=str(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    files = split_functions(str(src), output_dir=str(out_dir))
     assert len(files) == 2
     basenames = {os.path.basename(p) for p in files}
     assert {sanitize_filename("a") + ".s", sanitize_filename("b") + ".s"} == basenames
@@ -55,7 +57,8 @@ arm_func_end y
 """
     write_file(src, content)
     out_dir = tmp_path / "out"
-    files = split_arm_functions(str(src), output_dir=str(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    files = split_functions(str(src), output_dir=str(out_dir))
     # file still written
     assert len(files) == 1
     captured = capsys.readouterr()
@@ -69,7 +72,8 @@ z1
 """
     write_file(src, content)
     out_dir = tmp_path / "out"
-    files = split_arm_functions(str(src), output_dir=str(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    files = split_functions(str(src), output_dir=str(out_dir))
     assert len(files) == 1
     captured = capsys.readouterr()
     assert "file ended while inside block" in captured.err
@@ -80,7 +84,8 @@ def test_filename_sanitization(tmp_path):
     content = f"arm_func_start {name}\ninsn\narm_func_end {name}\n"
     write_file(src, content)
     out_dir = tmp_path / "out"
-    files = split_arm_functions(str(src), output_dir=str(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    files = split_functions(str(src), output_dir=str(out_dir))
     assert len(files) == 1
     bn = os.path.basename(files[0])
     assert bn.endswith(".s")
@@ -91,7 +96,7 @@ def test_nonexistent_input_raises(tmp_path):
     missing = tmp_path / "nope.s"
     out_dir = tmp_path / "out"
     try:
-        split_arm_functions(str(missing), output_dir=str(out_dir))
+        split_functions(str(missing), output_dir=str(out_dir))
     except FileNotFoundError:
         pass
     else:
