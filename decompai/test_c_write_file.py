@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 # Import the function under test.
-from c_file import write_c_file, INCLUDE_LINE, FUNC_DEF_RE
+from c import write_c_file, INCLUDE_LINE, FUNC_DEF_RE
 
 
 # Helper to read file content
@@ -21,6 +21,7 @@ int add(int a, int b) {
     return a + b;
 }
 """
+    
     out_file = tmp_path / "test1.c"
     write_c_file(src, str(out_file))
     content = read_file(out_file)
@@ -87,9 +88,9 @@ int div(int a, int b) {
 
 def test_handles_pointer_and_whitespace_in_signature(tmp_path):
     src = """
-    char * concat(const char *a, const char *b) {
-        return NULL;
-    }
+char * concat(const char *a, const char *b) {
+    return NULL;
+}
     """
     out_file = tmp_path / "test5.c"
     write_c_file(src, str(out_file))
