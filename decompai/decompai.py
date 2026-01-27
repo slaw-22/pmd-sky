@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 ASM_DIR = "tmp_asm_functions"
 C_DIR = "tmp_c_functions"
 
-# The attempt we make to match the object
+# The AI attempt to match the object
 ASM_DIFFER_CURRENT_FILE = "tools/asm-differ/object.o"
 # The object we're trying to match
 ASM_DIFFER_EXPECTED_FILE = "tools/asm-differ/expected/object.o"
@@ -57,9 +57,10 @@ def main():
             prompt = FIRST_SHOT + "```\n" + f.read() + "\n```"
             logger.info(f"Querying Gemini {MODEL}")
             logger.debug(prompt)
-            # TEMP FOR DEBUGGING
-            #c_code = gemini(prompt);
-            c_code = SET_MONEY_CARRIED_CODE
+            c_code = gemini(prompt);
+            
+            # FOR DEBUGGING - replace above line with this one
+            # c_code = SET_MONEY_CARRIED_CODE
 
             # Compile C provided by Gemini
             logger.info("Compiling C code from Gemini")
@@ -78,7 +79,6 @@ def main():
             # Write results
             with open(asm_file, "r", encoding="utf-8") as f:
                 num_lines = sum(1 for _ in f)
-                
             rows = [{
                 "function": func_name,
                 "percent": percent,
