@@ -28,6 +28,7 @@ cp ../../decomp/build/current.o ./object.o
 
 ## Run Asm-Differ
 ```
+cd tools/asm-differ
 source bin/activate
 # Find score
 python diff.py --file=object.o sub_0204CE00 -o --no-pager | grep -Eo 'CURRENT.+\)' | grep -Eo '[0-9]+'

@@ -18,12 +18,12 @@ def test_compile_success(tmp_path, monkeypatch, capsys):
     (tmp_path / "test.c").write_text("int main(void){return 0;}")
 
     captured_args = {}
-    def fake_run(cmd, check):
+    def fake_run(cmd, check, capture_output=True):
         # record cmd for later assertions
         captured_args['cmd'] = cmd
-        captured_args['check'] = check
+        captured_args['check'] = capture_output
         # simulate successful run: return an object similar to subprocess.CompletedProcess
-        return SimpleNamespace(returncode=0)
+        return SimpleNamespace(returncode=0, stdout=b"", stderr=b"", args=cmd)
     monkeypatch.setattr(subprocess, "run", fake_run)
 
     # Act

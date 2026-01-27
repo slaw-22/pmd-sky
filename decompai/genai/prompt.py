@@ -1,4 +1,4 @@
-TYPES=("""Please use these type, and defines:
+TYPES=("""Please use these types, and defines:
         typedef unsigned char u8;
         typedef unsigned short int u16;
         typedef unsigned long u32;
@@ -44,6 +44,8 @@ TYPES=("""Please use these type, and defines:
 CONTEXT=("Please respond only with the C code, no inline assembly, and no surrounding "
     "text or markdown formatting. Do not include the three backticks "
     "that define a markdown codeblock. Format the C code appropriately e.g. with indents\n"
+    "Include protoypes for all functions that are being called.\n"
+    "Do not declare the types and defines I've given to you.\n"
     "Context is armv5te, Metrowerks 3.0 build 137 MW2.0sp2p2 "
     "-O4,s -enum min -proc arm946e -gccext,on -fp soft -lang c99 -char signed "
     "-inline on,noauto -Cpp_exceptions off -gccinc -interworking -gccdep -MD -g\n" + TYPES)

@@ -1,4 +1,9 @@
-import sys, os
+import subprocess
+import re
+from pathlib import Path
+from typing import List, Tuple
+
+IDENT_RE = re.compile(r"Unknown identifier,\s*([A-Za-z_][A-Za-z0-9_]*)")
 
 def prepare_asm(asm_file):
     '''
@@ -16,42 +21,6 @@ def prepare_asm(asm_file):
     with open(asm_file, 'w', encoding='utf-8') as f:
         f.write(header + old)
 
-# TODO Remove this. No longer used.
-def assemble(asm_file, output_file):
-    '''
-    Assemble the given asm file into an object file at output_file
-    '''
-    import subprocess
-    cmd = ["wine",
-        "./tools/mwccarm/2.0/sp2p2/mwasmarm.exe",
-        "-DGAME_REMASTER=0",
-        "-DNORTH_AMERICA",
-        "-DPM_KEEP_ASSERTS",
-        "-DSDK_ARM9",
-        "-DSDK_CODE_ARM",
-        "-DSDK_FINALROM",
-        "-proc",
-        "arm5te",
-        "-gccinc",
-        "-DSDK_ASM",
-        "-gccdep",
-        "-MD",
-        "-o",
-        output_file,
-        asm_file]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"Error assembling {asm_file}:\n{result.stderr}\n\n{result.stdout}")
-        exit(1)
-    else:
-        print(f"Assembled {asm_file} to {output_file}")
-
-import subprocess
-import re
-from pathlib import Path
-from typing import List, Tuple
-
-IDENT_RE = re.compile(r"Unknown identifier,\s*([A-Za-z_][A-Za-z0-9_]*)")
 
 def _parse_unknown_identifiers(stdout: str) -> List[str]:
     """Return unique identifiers found in stdout in appearance order."""
@@ -129,3 +98,14 @@ def add_publics_and_assemble(asm_file: str, output_file: str) -> Tuple[int, str,
         added.extend(new_idents)
     # If loop exits without resolving, return last result
     return completed.returncode, stdout, stderr
+
+def extract_arm_func_name(filename: str) -> str | None:
+    """
+    Return the function name that appears after 'arm_func_start' in the given file.
+    If no match is found, returns None.
+    """
+    pattern = re.compile(r'^\s*arm_func_start\s+([A-Za-z_]\w*)\b', re.MULTILINE)
+    with open(filename, 'r', encoding='utf-8') as f:
+        text = f.read()
+    m = pattern.search(text)
+    return m.group(1) if m else None

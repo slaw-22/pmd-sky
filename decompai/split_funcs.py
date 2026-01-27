@@ -11,8 +11,7 @@ import os
 import sys
 import re
 from typing import List
-
-
+from pathlib import Path
 
 START_RE = re.compile(r'^\s*arm_func_start\s+(\S+)\s*$')
 END_RE = re.compile(r'^\s*arm_func_end\s+(\S+)\s*$')
@@ -70,6 +69,10 @@ def split_functions(input_path: str, output_dir: str) -> List[str]:
                     # write file (use .s extension for ARM assembly; change if needed)
                     safe_name = sanitize_filename(current_name)
                     out_path = os.path.join(output_dir, safe_name + ".s")
+                    p = Path(out_path)
+                    if p.exists():
+                        print(f"Error: path already exists: {p}", file=sys.stderr)
+                        exit(1)  # non-zero exit code signals error
                     with open(out_path, 'w', encoding='utf-8') as out_f:
                         out_f.write("\n".join(current_lines))
                         out_f.write("\n")
