@@ -109,5 +109,7 @@ def compile_c(c_file, output_file):
             raise RuntimeError(f"Compiler failed: returncode={completed.returncode}\n{stderr}\n{stdout}")
         print(f"Compiled {c_file} to {output_file}")
     except subprocess.CalledProcessError as e:
-        print(f"Error compiling {c_file}: {e}")
-        exit(1)
+        stdout = e.stdout.decode('utf-8', errors='replace') if e.stdout else ''
+        stderr = e.stderr.decode('utf-8', errors='replace') if e.stderr else ''
+        print(f"Error compiling {c_file}: returncode={e.returncode}\nSTDOUT:\n{stdout}\nSTDERR:\n{stderr}")
+        raise
