@@ -5,7 +5,7 @@ from typing import List, Tuple
 
 IDENT_RE = re.compile(r"Unknown identifier,\s*([A-Za-z_][A-Za-z0-9_]*)")
 
-def prepare_asm(asm_file):
+def prepare_asm(asm_file: str) -> None:
     '''
     Add macros to the asm file to allow it to compile
     Make all functions/references .public to prevent errors
@@ -96,8 +96,10 @@ def add_publics_and_assemble(asm_file: str, output_file: str) -> Tuple[int, str,
         # Add them to file and record
         _insert_publics_into_asm(asm_path, new_idents)
         added.extend(new_idents)
+    
     # If loop exits without resolving, return last result
-    return completed.returncode, stdout, stderr
+    # If we get here, loop exhausted without resolving unknown idents
+    raise RuntimeError(f"Max attempts reached trying to replace external references with .public in asm")
 
 def extract_arm_func_name(filename: str) -> str | None:
     """

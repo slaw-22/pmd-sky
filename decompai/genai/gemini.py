@@ -16,9 +16,6 @@ def gemini(prompt, max_retries=3, backoff_seconds=1.0):
     while True:
         try:
             client = genai.Client()
-            # for m in client.models.list():
-            #     print(m.name, "—", getattr(m, "display_name", None))
-            # exit(1)
             response = client.models.generate_content(
                 model=MODEL,
                 contents=prompt
